@@ -39,7 +39,7 @@
   <h2 id="list-heading">2 out of 3 items completed</h2>
 
   <!-- Todos -->
-  <ul role="list" class="todo-list stack-large" aria-labelledby="list-heading">
+  <ul class="todo-list stack-large" aria-labelledby="list-heading">
 
     <!-- todo-1 (editing mode) -->
     <li class="todo">
