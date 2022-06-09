@@ -1,10 +1,19 @@
 <script>
-	export let name;
+  export let name;
+  function toggleName(){
+      if(name === 'world'){
+          name = 'svelte'; 
+      }
+      else{
+          name = 'world';
+        }
+    }
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <button on:click={toggleName}> Toggle Name </button>
 </main>
 
 <style>
