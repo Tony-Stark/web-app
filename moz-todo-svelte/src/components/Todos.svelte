@@ -15,7 +15,7 @@
       Add
     </button>
   </form>
-
+<img alt="pikachu pika pika" src="pikachu.jpg" >
   <!-- Filter -->
   <div class="filters btn-group stack-exception">
     <button class="btn toggle-btn" aria-pressed="true">
