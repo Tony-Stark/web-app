@@ -4,6 +4,15 @@
 
   let newTodoName = ''
 
+  let newTodoId
+  $: {
+    if (totalTodos === 0) {
+      newTodoId = 1;
+    } else {
+      newTodoId = Math.max(...todos.map(t => t.id)) + 1;
+    }
+  }
+
 
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter(todo => todo.completed).length;
@@ -12,6 +21,21 @@
     todos = todos.filter(t => t.id !== todo.id)
   }
 
+  function addTodo() {
+  todos = [...todos, { id: newTodoId, name: newTodoName, completed: false }]
+  newTodoName = ''
+}
+
+
+
+  $: console.log('newTodoName: ', newTodoName)
+  
+  let filter = 'all';
+  const filterTodos = (filter, todos) => 
+    filter === 'active' ? todos.filter(t => !t.completed) :
+    filter === 'completed' ? todos.filter(t => t.completed) :
+    todos;
+
 </script>
 
 <h1> Svelte to-do list</h1>
@@ -19,7 +43,7 @@
 <div class="todoapp stack-large">
 
   <!-- NewTodo -->
-  <form>
+  <form on:submit|preventDefault={addTodo}>
     <h2 class="label-wrapper">
       <label for="todo-0" class="label__lg">
         What needs to be done?
@@ -32,7 +56,8 @@
   </form>
   <!-- Filter -->
   <div class="filters btn-group stack-exception">
-    <button class="btn toggle-btn" aria-pressed="true">
+    <button class="btn toggle-btn" aria-pressed="true"
+     >
       <span class="visually-hidden">Show</span>
       <span>All</span>
       <span class="visually-hidden">tasks</span>
