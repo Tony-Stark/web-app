@@ -1,11 +1,17 @@
 <script>
-  let todos = [
-    {id : 1, name : 'Create Svelte', completed : true},
-    {id : 2, name : 'Create first component', completed : false},
-    {id : 3, name : 'Complete tutorial', completed : false},
+  export let todos = [
    ]
-  let totalTodos = todos.length;
-  let completedTodos = todos.filter(todo => todo.completed).length;
+
+  let newTodoName = ''
+
+
+  $: totalTodos = todos.length;
+  $: completedTodos = todos.filter(todo => todo.completed).length;
+
+  function removeTodo(todo) {
+    todos = todos.filter(t => t.id !== todo.id)
+  }
+
 </script>
 
 <h1> Svelte to-do list</h1>
@@ -19,13 +25,11 @@
         What needs to be done?
       </label>
     </h2>
-    <input type="text" id="todo-0" autocomplete="off"
-      class="input input__lg" />
+    <input bind:value={newTodoName} type="text" id="todo-0" autocomplete="off" class="input input__lg" />
     <button type="submit" disabled="" class="btn btn__primary btn__lg">
       Add
     </button>
   </form>
-<img alt="pikachu pika pika" src="pikachu.jpg" >
   <!-- Filter -->
   <div class="filters btn-group stack-exception">
     <button class="btn toggle-btn" aria-pressed="true">
@@ -49,15 +53,35 @@
   <h2 id="list-heading">{completedTodos} out of {totalTodos} items completed</h2>
 
   <!-- Todos -->
-  <ul class="todo-list stack-large" aria-labelledby="list-heading">
-    {#each todos as todo, index (todo.id)}
-    <li>
-      <input type="checkbox" checked={todo.completed}/> {index}. {todo.name} (id: {todo.id})
+<!-- To-dos -->
+<ul class="todo-list stack-large" aria-labelledby="list-heading">
+  {#each todos as todo (todo.id)}
+    <li class="todo">
+      <div class="stack-small">
+        <div class="c-cb">
+          <input type="checkbox" id="todo-{todo.id}" checked={todo.completed}
+            on:click={() => todo.completed = !todo.completed}
+          />
+          <label for="todo-{todo.id}" class="todo-label">
+            {todo.name}
+          </label>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn">
+            Edit <span class="visually-hidden">{todo.name}</span>
+          </button>
+          <button type="button" class="btn btn__danger" 
+            on:click={() => removeTodo(todo)}>
+            Delete <span class="visually-hidden">{todo.name}</span>
+          </button>
+        </div>
+      </div>
     </li>
-    {:else}
-    Nothing to do here!
-    {/each}
-  </ul>
+  {:else}
+    <li>Nothing to do here!</li>
+  {/each}
+</ul>
+
   
   <hr />
 

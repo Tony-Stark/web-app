@@ -1,8 +1,18 @@
 <script>
-  import Todos from './components/Todos.svelte'
+	import Todos from './components/Todos.svelte'
+	let name = "Yossi";
+	let todos = [
+		{id : 1, name : "create first mission", completed : true},
+		{id : 2, name : "create second mission", completed : true},
+		{id : 3, name : "create third mission", completed : true},
+		{id : 4, name : "create fourth mission", completed : true},
+		{id : 5, name : "create fifth mission", completed : false},
+		{id : 6, name : "create sixth mission", completed : false},
+		{id : 7, name : "create seventh mission", completed : false},
+	];
 </script>
 
-<Todos />
+<Todos {todos} />
 
 <main>
 	<h1>Hello {name}!</h1>
