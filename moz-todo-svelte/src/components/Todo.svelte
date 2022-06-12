@@ -1,10 +1,13 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { tick } from 'svelte'
+  import { selectOnFocus } from '../actions.js'
   const dispatch = createEventDispatcher();
   export let todo;
 
   let editing = false;
   let name = todo.name;
+  let nameEl;
 
   function update(updatedTodo) {
     todo = { ...todo, ...updatedTodo }; // applies modifications to todo
@@ -24,8 +27,10 @@
     dispatch("remove", todo); // emit remove event
   }
 
-  function onEdit() {
+  async function onEdit() {
     editing = true; // enter editing mode
+    await tick()
+    nameEl.focus()
   }
 
   function onToggle() {
@@ -39,7 +44,7 @@
     <form on:submit|preventDefault={onSave} class="stack-small" on:keydown={e => e.key === 'Escape' && onCancel()}>
       <div class="form-group">
         <label for="todo-{todo.id}" class="todo-label">New name for '{todo.name}'</label>
-        <input bind:value={name} type="text" id="todo-{todo.id}" autoComplete="off" class="todo-text" />
+        <input bind:value={name} use:selectOnFocus bind:this={nameEl} type="text" id="todo-{todo.id}" autoComplete="off" class="todo-text" />
       </div>
       <div class="btn-group">
         <button class="btn todo-cancel" on:click={onCancel} type="button">
